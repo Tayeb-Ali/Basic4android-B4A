@@ -1,0 +1,70 @@
+﻿Version=6.5
+NumberOfModules=3
+Module1=bkg
+Module2=Scale
+Module3=RPNCalc
+Build1=Default,KCSoft.RPNCalc
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.basic4ppc.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="4"  android:targetSdkVersion="14"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
+IconFile=
+NumberOfFiles=4
+File1=calculator.bal
+File2=functions.bal
+File3=main.bal
+File4=rpncalcmain.bal
+NumberOfLibraries=3
+Library1=core
+Library2=phone
+Library3=rpncalc
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: RPNCalc
+	#VersionCode: 1
+	#VersionName: 
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: unspecified
+	#CanInstallToExternalStorage: False
+	
+	#LibraryVersion: 3.0
+	#LibraryName: RPNCalc
+	#LibraryAuthor: Klaus Christl	
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: False
+	#IncludeTitle: True
+#End Region
+
+'Activity module
+Sub Process_Globals
+
+End Sub
+
+Sub Globals
+	Dim Calc As RPNCalc
+	Dim lblTest As Label
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	Activity.LoadLayout("main")
+	
+	Calc.Initialize(Me, "Calc")
+	Calc.AddRPNCalc(Activity)
+	
+	Calc.Show(1.26, Null)
+End Sub
+
+Sub Activity_Resume
+	
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+
+End Sub
+
+Sub Calc_Close(Val As Double)
+	Activity.Title = Val
+End Sub
+
+Sub lblTest_Click
+	Calc.Show(1.26, lblTest)
+End Sub
