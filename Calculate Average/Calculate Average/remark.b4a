@@ -1,0 +1,91 @@
+﻿Version=6.8
+NumberOfModules=1
+Module1=Starter
+Build1=Default,sox.calcavg
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: https://www.b4x.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="19"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
+IconFile=
+NumberOfFiles=1
+File1=Main_Layout.bal
+NumberOfLibraries=1
+Library1=core
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: Calculate Average
+	#VersionCode: 1
+	#VersionName: 
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: unspecified
+	#CanInstallToExternalStorage: False
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: False
+	#IncludeTitle: True
+#End Region
+
+Sub Process_Globals
+
+End Sub
+
+Sub Globals
+	Private Quiz1 As EditText
+	Private Quiz2 As EditText
+	Private Quiz3 As EditText
+	Private Remark As Label
+	
+	Dim Input1, Input2, Input3 As Int
+	Dim Avg As Int
+	
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	Activity.LoadLayout("Main_Layout")
+
+End Sub
+
+Sub Activity_Resume
+
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+
+End Sub
+
+Sub CheckInput(Value1 As Int, Value2 As Int, Value3 As Int) As Boolean
+	If Value1 > 101 Or Value1 <= 0 Then
+		Return False
+	Else If Value2 > 101 Or Value2 <= 0 Then
+		Return False
+	Else If Value3 > 101 Or Value3 <= 0 Then
+		Return False
+	Else
+		Return True
+	End If
+	
+End Sub
+
+Sub Calc_Avg_Click
+	If Quiz1.Text <> ""  And Quiz2.Text <> "" And Quiz3.Text <> "" Then
+		Input1 = Quiz1.Text
+		Input2 = Quiz2.Text
+		Input3 = Quiz3.Text
+	End If
+		
+	If CheckInput(Input1, Input2, Input3) = True Then
+		Avg = (Input1 + Input2 + Input3) / 3
+		If Avg > 45 Then
+			Remark.Color = Colors.Red
+			Remark.Text = "Passed"
+		Else
+			Remark.Color = Colors.Blue
+			Remark.Text = "Failed"
+		End If
+	Else
+		Msgbox("One of the fields is empty or has a wrong value (must be between 0 - 100)", "Alert")
+	End If
+	
+	Input1 = 0
+	Input2 = 0
+	Input3 = 0
+	
+End Sub
