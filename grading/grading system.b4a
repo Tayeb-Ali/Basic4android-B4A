@@ -1,0 +1,84 @@
+﻿Version=6.5
+NumberOfModules=1
+Module1=Starter
+Build1=Default,b4a.example
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.b4x.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="19"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
+IconFile=
+NumberOfFiles=1
+File1=grade.bal
+NumberOfLibraries=1
+Library1=core
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: GradeingSystem
+	#VersionCode: 1
+	#VersionName: 1
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: unspecified
+	#CanInstallToExternalStorage: False
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: False
+	#IncludeTitle: True
+#End Region
+
+Sub Process_Globals
+	'These global variables will be declared once when the application starts.
+	'These variables can be accessed from all modules.
+     Dim A,B,C,D As Double 'ignore
+End Sub
+
+Sub Globals
+	'These global variables will be redeclared each time the activity is created.
+	'These variables can only be accessed from this module.
+
+	Dim grade_of_quiz1 As EditText
+	Dim grade_of_quiz2 As EditText
+	Dim grade_of_quiz3 As EditText
+	Dim compute_avarage As Button
+	Dim avrage_value As Label
+	Dim failed As Label
+	Dim passed As Label
+	Dim result As Label
+	Dim result2 As Label
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	'Do not forget to load the layout file created with the visual designer. For example:
+	Activity.LoadLayout("grade")
+
+End Sub
+
+Sub Activity_Resume
+
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+	
+End Sub
+
+
+Sub compute_avarage_Click
+If grade_of_quiz1.Text="" Then
+	Msgbox("enter quiz grade","error")
+Else If grade_of_quiz2.Text="" Then
+	Msgbox("enter quiz grade","error")
+else If grade_of_quiz3.Text="" Then
+		Msgbox("enter quiz grade","error")
+		End If
+	avrage_value.Text= (grade_of_quiz1.Text + grade_of_quiz2.Text + grade_of_quiz3.Text)/3
+	If avrage_value.Text<50 Then
+		result2.Text=failed.text
+		Else If avrage_value.Text>=50 Then
+			result.Text=passed.Text
+	End If
+End Sub
+Sub clear_Click
+grade_of_quiz1.Text=""
+grade_of_quiz2.Text=""
+grade_of_quiz3.Text=""
+result.Text=""
+result2.Text=""
+avrage_value.Text=""	
+End Sub
