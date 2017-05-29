@@ -1,0 +1,156 @@
+﻿Version=6.5
+NumberOfModules=0
+Build1=Default,sqldemo.b4a
+ManifestCode=
+IconFile=
+NumberOfFiles=13
+File1=add.png
+File2=add-new.png
+File3=bak.png
+File4=circle close - 01.png
+File5=dbss.sql
+File6=delete.png
+File7=delete-erase.png
+File8=edit-wf.png
+File9=main.bal
+File10=plus.png
+File11=plus1.png
+File12=shutdown-wf.png
+File13=Thumbs.db
+NumberOfLibraries=2
+Library1=core
+Library2=sql
+@EndOfDesignText@
+#Region Module Attributes
+	#FullScreen: False
+	#IncludeTitle: True
+	#ApplicationLabel: Student Information
+	#VersionCode: 1
+	#VersionName: 
+	#SupportedOrientations: portrait
+	#CanInstallToExternalStorage: False
+#End Region
+
+'Activity module
+Sub Process_Globals
+	Dim SQL1 As SQL
+	Dim cursor1 As Cursor
+End Sub
+
+Sub Globals
+	'Dim txtUsername As EditText
+'	Dim txtPassword As EditText
+	Dim LVDb As ListView
+	Dim cmdAdd As Button
+	Dim cmdDelete As Button
+	Dim cmdEdit As Button
+	Dim ID,txt_Fname,txt_Lname,txt_ID As EditText
+	Dim idv As Int
+
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+
+	Activity.LoadLayout("main")
+	If File.Exists(File.DirInternal,"dbss.sql") = False Then
+		File.Copy(File.DirAssets,"dbss.sql",File.DirInternal,"dbss.sql")
+	End If
+	
+	If SQL1.IsInitialized = False Then
+		SQL1.Initialize(File.DirInternal, "dbss.sql", False)
+	End If
+	
+	DBload
+	
+	
+End Sub
+
+Sub Activity_Resume
+
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+
+End Sub
+
+Sub DBload
+LVDb.Clear'need to clear the list
+cursor1 = SQL1.ExecQuery("SELECT * FROM Student")
+For i = 0 To cursor1.RowCount - 1
+cursor1.Position = i
+LVDb.AddSingleLine(cursor1.GetString("Studentid")& " | " &cursor1.GetString("FirstName")& " | " & cursor1.GetString("LastName"))
+LVDb.SingleLineLayout.ItemHeight = 80
+LVDb.SingleLineLayout.Label.TextSize = 15
+LVDb.SingleLineLayout.label.TextColor = Colors.Black
+LVDb.SingleLineLayout.label.Color = Colors.White
+Next
+End Sub
+
+Sub cmdAdd_Click
+		
+	If txt_Fname.Text = "" Or txt_Lname.Text = "" Or txt_ID.Text="" Then
+		Msgbox("You have to enter all fields","Missed data field")
+Else
+	
+	'Grab the last ID number which is the highest number
+		cursor1 = SQL1.ExecQuery("SELECT * FROM Student")
+	If cursor1.RowCount > 0 Then
+		For i = 0 To cursor1.RowCount - 1	        
+	cursor1.Position = i
+	
+	Dim NewID As Int
+	NewID = cursor1.GetInt("Studentid")
+Next
+
+End If
+	NewID = txt_ID.Text ' add 1 to the ID number to make a new ID field
+		SQL1.ExecNonQuery("INSERT INTO Student VALUES('" & NewID & "','" & txt_Fname.Text & "','" & txt_Lname.Text & "')")
+	DBload
+	txt_ID.Text = ""
+	txt_Fname.Text = ""
+	txt_Lname.Text = ""
+	txt_Fname.RequestFocus
+End If
+
+
+End Sub
+Sub cmdDelete_Click
+	
+	
+	SQL1.ExecNonQuery("DELETE FROM Student where Studentid = '" &txt_ID.Text & "' ")
+	DBload
+	txt_ID.Text = ""
+	txt_Fname.Text = ""
+	txt_Lname.Text = ""
+	
+End Sub
+
+Sub LVDb_ItemClick (Position As Int, Value As Object)' click on the entry in the list
+Dim idvalue As String
+Dim countIt As Int
+
+idvalue = Value
+countIt = idvalue.IndexOf("|") 'find location of sperator
+idvalue = idvalue.SubString2(0,countIt) 'find first part of label text
+	cursor1 = SQL1.ExecQuery("SELECT * FROM Student where Studentid = '" & idvalue & "' ")
+For i = 0 To cursor1.RowCount - 1
+cursor1.Position = i
+
+	txt_ID.Text = cursor1.GetInt("Studentid")
+	txt_Fname.Text=cursor1.getString("FirstName")
+	txt_Lname.Text=cursor1.getString("LastName")
+Next
+End Sub
+
+Sub cmdEdit_Click
+	If txt_Fname.Text = "" Or txt_Lname.Text = "" Or txt_ID.Text="" Then
+		Msgbox("Select item to edit","Missed data item")
+Else
+		SQL1.ExecNonQuery("UPDATE  Student set FirstName ='"& txt_Fname.text &"',LastName ='"& txt_Lname.text &"' WHERE Studentid = " & txt_ID.Text)
+	DBload
+End If
+
+End Sub
+Sub cmdExit_Click
+	Activity.finish
+	End Sub
