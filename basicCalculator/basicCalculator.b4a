@@ -1,0 +1,103 @@
+﻿Version=6.5
+NumberOfModules=1
+Module1=Starter
+Build1=Default,b4a.example
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: http://www.b4x.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~<uses-sdk android:minSdkVersion="5" android:targetSdkVersion="19"/>~\n~<supports-screens android:largeScreens="true" ~\n~    android:normalScreens="true" ~\n~    android:smallScreens="true" ~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~
+IconFile=
+NumberOfFiles=1
+File1=myCalac.bal
+NumberOfLibraries=1
+Library1=core
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: B4A Example
+	#VersionCode: 1
+	#VersionName: 
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: unspecified
+	#CanInstallToExternalStorage: False
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: False
+	#IncludeTitle: True
+#End Region
+
+Sub Process_Globals
+	'These global variables will be declared once when the application starts.
+	'These variables can be accessed from all modules.
+
+End Sub
+
+Sub Globals
+	'These global variables will be redeclared each time the activity is created.
+	'These variables can only be accessed from this module.
+
+	Private txt_1 ,txt_2,txt_3 As EditText
+	Private but_Add,but_Milnus ,but_Divide,but_squr,but_noSquer As Button
+	Private num1,num2,num3 As Double
+	Dim exp1 As Double
+	
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	'Do not forget to load the layout file created with the visual designer. For example:
+	Activity.LoadLayout("myCalac")
+
+End Sub
+
+Sub Activity_Resume
+ToastMessageShow("OnResume",True)
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+ToastMessageShow("in Pause",True)
+End Sub
+
+
+Sub but_Divide_Click
+	'Msgbox("test","test title")
+	txt_3.Text = txt_1.Text / txt_2.Text
+End Sub
+
+Sub but_Multiply_Click
+	txt_3.Text = txt_1.Text * txt_2.Text
+End Sub
+
+Sub but_Milnus_Click
+	txt_3.Text = txt_1.Text - txt_2.Text
+End Sub
+
+Sub but_Add_Click
+	txt_3.Text = txt_1.Text + txt_2.Text
+End Sub
+
+Sub but_Cle_Click
+	txt_1.Text=""
+	txt_2.Text=""
+	txt_3.Text=""
+End Sub
+
+Sub but_noSquer_Click
+	txt_1.Text = num1
+	txt_2.Text = num2
+	txt_3.Text = num3
+	'num3 = num1  2
+	'num3=Power(num1 , num2)
+	
+End Sub
+
+Sub but_squr_Click
+	
+	'txt_1.Text = num1
+'	txt_2.Text = num2
+	'txt_3.Text = num3
+	'num3= num1 * 2
+	'txt_3.Text = txt_1.Text * txt_1.Text*2
+	
+	txt_3.Text =Cos(num1) 
+	
+	
+	
+End Sub
+
